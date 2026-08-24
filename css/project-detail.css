@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Project detail overlay — full-screen case study view. Opened via a FLIP
+   morph transition from the clicked grid card (see projects.js).
+   ========================================================================== */
+
+.project-detail {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-project-detail);
+  background: var(--color-bg);
+  overflow-y: auto;
+  transform: translateY(100%);
+  visibility: hidden;
+}
+
+.project-detail.is-open {
+  visibility: visible;
+}
+
+.project-detail__close {
+  position: fixed;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 10;
+  width: 3.2em;
+  height: 3.2em;
+  border-radius: 50%;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-detail__hero {
+  position: relative;
+  height: 60vh;
+  min-height: 380px;
+  overflow: hidden;
+}
+
+.project-detail__hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Real phone-mockup screenshots are letterboxed rather than cropped (see
+   .project-card__placeholder-img.has-real-image) — an ambient glow fills
+   the space around the device so the banner doesn't read as sparse. */
+.project-detail__hero.has-real-image {
+  background:
+    radial-gradient(ellipse 50% 70% at 50% 50%, rgba(212, 255, 63, 0.1), transparent 65%),
+    var(--color-bg-elevated);
+}
+
+.project-detail__hero-img.has-real-image {
+  object-fit: contain;
+  padding-block: var(--space-lg);
+}
+
+.project-detail__hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(11,11,14,0.1) 0%, var(--color-bg) 100%);
+}
+
+.project-detail__intro {
+  padding-block: var(--space-2xl) var(--space-xl);
+}
+
+.project-detail__eyebrow-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.project-detail__title {
+  font-size: var(--fs-h1);
+  max-width: 20ch;
+}
+
+.project-detail__summary {
+  font-size: var(--fs-lg);
+  max-width: 60ch;
+  margin-top: var(--space-md);
+}
+
+.project-detail__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.project-detail__meta dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.project-detail__meta dd {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.project-detail__section {
+  padding-block: var(--space-xl);
+  border-top: 1px solid var(--color-border);
+  display: grid;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 860px) {
+  .project-detail__section {
+    grid-template-columns: 240px 1fr;
+  }
+}
+
+.project-detail__section-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-accent);
+}
+
+.project-detail__section-body p {
+  max-width: 68ch;
+  margin-bottom: var(--space-sm);
+  color: var(--color-text-dim);
+}
+
+.project-detail__stack {
+  display: flex;
+  gap: var(--space-2xs);
+  flex-wrap: wrap;
+}
+
+.project-detail__stack span {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  border: 1px solid var(--color-border-strong);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+}
+
+.project-detail__gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+}
+
+.project-detail__gallery img {
+  border-radius: var(--radius-md);
+  aspect-ratio: 16/10;
+  object-fit: cover;
+}
+
+.project-detail__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-block: var(--space-2xl);
+  flex-wrap: wrap;
+}
+
+.project-detail__link-note {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-dimmer);
+}
+
+/* body lock while overlay is open */
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}

@@ -1,0 +1,160 @@
+/* ==========================================================================
+   Base element styling & global utility classes
+   ========================================================================== */
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  /* kept hidden until preloader.js confirms readiness, preventing an
+     unstyled/unanimated flash; noscript fallback in <head> overrides this */
+  visibility: hidden;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Custom scrollbar (WebKit) — kept subtle, matches dark theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-elevated-2);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-dimmer);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+p {
+  color: var(--color-text-dim);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.section {
+  position: relative;
+  padding-block: var(--space-3xl);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 12px 2px var(--color-accent);
+}
+
+.section-heading {
+  font-size: var(--fs-h2);
+  max-width: 20ch;
+}
+
+.text-gradient {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Split-text word/char wrappers — overflow hidden on the outer line so
+   characters can translateY in from below without a visible reflow. */
+.split-line {
+  overflow: hidden;
+  display: block;
+}
+
+.split-word,
+.split-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Generic scroll-reveal target, animated via GSAP from JS
+   (js/scroll-animations.js sets the hidden state itself via gsap.set,
+   and falls back to visible if GSAP never loads at all).
+
+   Deliberately NOT hidden via CSS here (no `.js .reveal { opacity: 0 }`
+   rule) — that was tried once and is a real trap: gsap.from() reads an
+   element's *current* opacity to figure out what to animate back to,
+   so if CSS has already forced it to 0 by the time the tween samples
+   it, the "reveal" animates from 0 to 0 and the content never comes
+   back. JS owns this element's opacity state exclusively, end to end. */
+.reveal {
+  opacity: 1;
+}
+
+.reduced-motion .reveal,
+.reduced-motion .split-char,
+.reduced-motion .split-word {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Skip link for keyboard users, hidden custom cursor notwithstanding */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: var(--space-md);
+  z-index: 10000;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  transition: top var(--dur-fast) var(--ease-out-quart);
+}
+
+.skip-link:focus {
+  top: var(--space-md);
+}
+
+/* Hide custom cursor's target elements' default cursor only once JS
+   confirms a fine pointer is present (see cursor.js) */
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button {
+  cursor: none;
+}

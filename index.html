@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muhammad Hammas Rasheed — Flutter Developer</title>
+  <meta name="description" content="Muhammad Hammas Rasheed is a Flutter developer with 3+ years of experience building production-grade, offline-first mobile apps with clean architecture and Riverpod/BLoC." />
+  <meta name="author" content="Muhammad Hammas Rasheed" />
+  <meta name="theme-color" content="#0b0b0e" />
+
+  <!-- Open Graph -->
+  <!-- PLACEHOLDER: og:image/og:url point at a domain and export that don't exist yet.
+       Export a real 1200x630 PNG to assets/og-cover.png and swap the domain before sharing. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Muhammad Hammas Rasheed — Flutter Developer" />
+  <meta property="og:description" content="Flutter developer building production-grade, offline-first mobile apps. 3+ years of experience, clean architecture, Riverpod/BLoC." />
+  <meta property="og:image" content="assets/og-cover.png" />
+  <meta property="og:url" content="https://hammasrasheed.dev" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Muhammad Hammas Rasheed — Flutter Developer" />
+  <meta name="twitter:description" content="Flutter developer building production-grade, offline-first mobile apps." />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230b0b0e'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23d4ff3f'/%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/cursor.css" />
+  <link rel="stylesheet" href="css/preloader.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/about.css" />
+  <link rel="stylesheet" href="css/skills.css" />
+  <link rel="stylesheet" href="css/projects.css" />
+  <link rel="stylesheet" href="css/project-detail.css" />
+  <link rel="stylesheet" href="css/timeline.css" />
+  <link rel="stylesheet" href="css/education.css" />
+  <link rel="stylesheet" href="css/contact.css" />
+  <noscript><style>body{visibility:visible !important;}</style></noscript>
+</head>
+<body>
+  <script>document.documentElement.classList.add('js');</script>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Fills left-to-right in sync with scroll position (js/scroll-animations.js initScrollProgress) -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ============ PRELOADER (shown once per session — see js/preloader.js) ============ -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__panel"></div>
+    <div class="preloader__mark">
+      <span>MHR</span>
+    </div>
+    <div class="preloader__counter" id="preloader-counter">0%</div>
+    <div class="preloader__bar-track">
+      <div class="preloader__bar-fill" id="preloader-bar"></div>
+    </div>
+  </div>
+
+  <!-- Custom cursor -->
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"><span class="cursor-label">View</span></div>
+
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- ============ HEADER / NAV ============ -->
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a href="#hero" class="logo">
+        <span class="logo__dot"></span>
+        <span class="logo__text">Hammas.dev</span>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a href="#contact" class="btn btn-primary nav-cta" data-magnetic>Let's talk</a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__canvas-wrap" aria-hidden="true">
+        <canvas id="hero-canvas"></canvas>
+      </div>
+
+      <div class="container hero__content">
+        <div class="hero__text">
+          <p class="hero__eyebrow">
+            <span class="status-dot"></span>
+            Available for freelance &amp; full-time roles
+          </p>
+
+          <h1 class="hero__title" id="hero-title">
+            <span class="line">Flutter</span>
+            <span class="line line--accent">Developer</span>
+          </h1>
+
+          <!-- Not marked with the generic [data-reveal] system on purpose — these
+               already get a dedicated, choreographed entrance from
+               animateHeroTitle() in text-animations.js (staggered in right after
+               the title's characters). Layering the generic scroll-triggered
+               reveal on top of that created two independent tweens racing to
+               control the same opacity, and the generic one's ScrollTrigger
+               ('top 88%') only fires once its element crosses that scroll
+               threshold — for elements already sitting low in the hero (like
+               the actions row once a taller photo pushed things down), that
+               threshold might not be crossed at page load at all, leaving the
+               element stuck at the generic system's hidden opacity:0 forever. -->
+          <p class="hero__subtitle">
+            I'm Muhammad Hammas Rasheed — I design and ship production-grade, offline-first
+            mobile apps with clean architecture, so they hold up when real users and real
+            networks get messy.
+          </p>
+
+          <div class="hero__meta">
+            <div class="hero__meta-item">
+              Experience
+              <strong>3+ Years</strong>
+            </div>
+            <div class="hero__meta-item">
+              Focus
+              <strong>Flutter &amp; Dart</strong>
+            </div>
+            <div class="hero__meta-item">
+              Based in
+              <strong>Pakistan</strong>
+            </div>
+          </div>
+
+          <div class="hero__actions">
+            <a href="#work" class="btn btn-primary" data-magnetic>View Projects</a>
+            <a href="#contact" class="btn btn-ghost" data-magnetic>Get in Touch</a>
+          </div>
+        </div>
+
+        <div class="hero__photo reveal" data-reveal>
+          <div class="hero__photo-glow" aria-hidden="true"></div>
+          <div class="hero__photo-frame">
+            <img src="assets/pictures/profile.jpg" alt="Portrait of Muhammad Hammas Rasheed" width="599" height="900" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__scroll-cue" aria-hidden="true">
+        Scroll
+        <span class="hero__scroll-cue-line"></span>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <!-- PLACEHOLDER: bio copy below is realistic draft content, replace with your own voice -->
+    <section class="section about" id="about">
+      <div class="container about__grid">
+        <div class="about__intro">
+          <p class="eyebrow">About</p>
+          <h2 class="section-heading" data-split="words">Code that survives contact with real users.</h2>
+        </div>
+
+        <div class="about__body">
+          <!-- data-scrub-text: each word brightens in sequence as the paragraph
+               scrolls through view (see text-animations.js scrubTextReveal) —
+               a deliberately different technique from the plain fade-up used
+               elsewhere, since this copy is the section's main read. -->
+          <p data-scrub-text>
+            I started building with Flutter in 2023 and haven't
+            stopped — three years and a small stack of shipped apps later, I still think it's
+            the best tool available for building genuinely native-feeling mobile experiences
+            from a single codebase.
+          </p>
+          <p data-scrub-text>
+            My focus has narrowed over time to a specific kind of problem:
+            apps that need to work when conditions aren't ideal —
+            spotty connectivity, low-end devices, real concurrent users. That's pushed me deep
+            into offline-first architecture, careful state management with Riverpod and BLoC,
+            and treating the data layer as seriously as the UI.
+          </p>
+          <p data-scrub-text>
+            I'm currently a Computer Science undergraduate, which keeps the fundamentals
+            sharp, and I split my time between freelance client work and personal projects
+            built specifically to get better at the parts of engineering that don't show up
+            in a tutorial — sync conflict resolution, animation performance, and code that
+            another developer can actually maintain.
+          </p>
+
+          <div class="about__stats">
+            <div class="stat-block reveal" data-reveal>
+              <div class="stat-number" data-counter="3">0<span>+</span></div>
+              <div class="stat-label">Years of Experience</div>
+            </div>
+            <div class="stat-block reveal" data-reveal>
+              <div class="stat-number" data-counter="32">0<span>+</span></div>
+              <div class="stat-label">Flutter Projects on GitHub</div>
+            </div>
+            <div class="stat-block reveal" data-reveal>
+              <div class="stat-number" data-counter="99">0<span>%</span></div>
+              <div class="stat-label">Crash-Free Sessions (avg.)</div>
+            </div>
+            <div class="stat-block reveal" data-reveal>
+              <div class="stat-number" data-counter="4">0</div>
+              <div class="stat-label">Architectures Mastered</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section class="section skills" id="skills">
+      <div class="container">
+        <div class="skills__header">
+          <div>
+            <p class="eyebrow">Skills</p>
+            <h2 class="section-heading" data-split="words">The toolkit behind the apps.</h2>
+          </div>
+          <p style="max-width: 40ch; color: var(--color-text-dim);">
+            Hover a node for detail. On smaller screens this collapses into a simple grid.
+          </p>
+        </div>
+
+        <div class="skills__constellation" id="skills-constellation">
+          <div class="skills__constellation-grid" aria-hidden="true"></div>
+          <!-- skill nodes injected by js/skills.js -->
+        </div>
+
+        <div class="skills__grid-fallback" id="skills-grid-fallback">
+          <!-- fallback chips injected by js/skills.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <!-- Project data (real, with GitHub links) lives in js/data/projects-data.js —
+         PLACEHOLDER: imagery there is still generated gradient mockups; swap in
+         real screenshots/GIFs of the apps when available -->
+    <section class="section projects" id="work">
+      <div class="container">
+        <div class="projects__header">
+          <div>
+            <p class="eyebrow">Selected Work</p>
+            <h2 class="section-heading" data-split="words">Animation-first Flutter, built to show the craft.</h2>
+          </div>
+          <p class="projects__count"><span id="projects-count">03</span> Case Studies</p>
+        </div>
+
+        <div class="project-list" id="project-list">
+          <!-- project cards injected by js/projects.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE / TIMELINE ============ -->
+    <!-- PLACEHOLDER: timeline entries are illustrative — replace with real history -->
+    <section class="section timeline" id="experience">
+      <div class="container">
+        <p class="eyebrow">Experience</p>
+        <h2 class="section-heading" data-split="words">Three years, one steady focus.</h2>
+
+        <div class="timeline__track" id="timeline-track">
+          <div class="timeline__line" aria-hidden="true">
+            <div class="timeline__line-fill" id="timeline-line-fill"></div>
+          </div>
+
+          <div class="timeline__item" data-timeline-item>
+            <span class="timeline__dot"></span>
+            <p class="timeline__period">2024 — Present</p>
+            <h3 class="timeline__role">Freelance Flutter Developer <span class="timeline__org">· Self-employed</span></h3>
+            <p class="timeline__desc">
+              Delivering production Flutter apps for small businesses and startups end-to-end
+              — architecture, development, and post-launch support — with an emphasis on
+              offline-first data layers and clean, testable state management.
+            </p>
+            <div class="timeline__tags">
+              <span>Flutter</span><span>Riverpod</span><span>Firebase</span><span>Supabase</span>
+            </div>
+          </div>
+
+          <div class="timeline__item" data-timeline-item>
+            <span class="timeline__dot"></span>
+            <p class="timeline__period">2023 — 2024</p>
+            <h3 class="timeline__role">Mobile App Developer <span class="timeline__org">· Product Studio (Contract)</span></h3>
+            <p class="timeline__desc">
+              Built and maintained two client-facing Flutter apps in a small team, owning the
+              state management layer migration from Provider to BLoC and cutting release
+              crash rates significantly through better error boundaries and testing.
+            </p>
+            <div class="timeline__tags">
+              <span>BLoC</span><span>REST APIs</span><span>CI/CD</span><span>Unit Testing</span>
+            </div>
+          </div>
+
+          <div class="timeline__item" data-timeline-item>
+            <span class="timeline__dot"></span>
+            <p class="timeline__period">2022 — 2023</p>
+            <h3 class="timeline__role">Flutter Developer Intern <span class="timeline__org">· Early-Stage Startup</span></h3>
+            <p class="timeline__desc">
+              First professional Flutter role — shipped UI features end-to-end under senior
+              guidance, learned clean architecture principles in a production codebase, and
+              got comfortable with the full app-store release cycle.
+            </p>
+            <div class="timeline__tags">
+              <span>Flutter</span><span>Dart</span><span>Provider</span><span>Git</span>
+            </div>
+          </div>
+
+          <div class="timeline__item" data-timeline-item>
+            <span class="timeline__dot"></span>
+            <p class="timeline__period">2023</p>
+            <h3 class="timeline__role">Started Learning Flutter <span class="timeline__org">· Self-Taught</span></h3>
+            <p class="timeline__desc">
+              Began building small personal apps to learn the framework, alongside starting a
+              Computer Science degree — the combination of formal fundamentals and hands-on
+              building has shaped how I approach every project since.
+            </p>
+            <div class="timeline__tags">
+              <span>Dart</span><span>Widgets</span><span>State Management Basics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION & CERTIFICATIONS ============ -->
+    <section class="section education" id="education">
+      <div class="container">
+        <p class="eyebrow">Education</p>
+        <h2 class="section-heading" data-split="words">Formal foundation, backed by hands-on certification.</h2>
+
+        <div class="education__grid">
+          <div class="education__degree reveal" data-reveal>
+            <span class="education__period">Aug 2023 — July 2027</span>
+            <h3 class="education__title">BS Computer Science</h3>
+            <p class="education__school">University of Engineering &amp; Technology, Taxila</p>
+          </div>
+
+          <div class="education__certs">
+            <p class="education__certs-label">Certifications</p>
+
+            <!-- All three Coursera "Show credentials" links now point to their real verify URLs -->
+            <ul class="cert-list">
+              <li class="cert-item reveal" data-reveal>
+                <span class="cert-item__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                </span>
+                <div class="cert-item__info">
+                  <h4 class="cert-item__title">Introduction to Mobile App Development</h4>
+                  <span class="cert-item__issuer">Coursera</span>
+                </div>
+                <a href="https://coursera.org/verify/J54ROGPDPV73" class="cert-item__link" data-magnetic target="_blank" rel="noopener">
+                  Show credentials
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+                </a>
+              </li>
+
+              <li class="cert-item reveal" data-reveal>
+                <span class="cert-item__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                </span>
+                <div class="cert-item__info">
+                  <h4 class="cert-item__title">Getting Started with Flutter &amp; Dart</h4>
+                  <span class="cert-item__issuer">Coursera</span>
+                </div>
+                <a href="https://coursera.org/verify/ELVFDUOI63QN" class="cert-item__link" data-magnetic target="_blank" rel="noopener">
+                  Show credentials
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+                </a>
+              </li>
+
+              <li class="cert-item reveal" data-reveal>
+                <span class="cert-item__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                </span>
+                <div class="cert-item__info">
+                  <h4 class="cert-item__title">Advanced Flutter UI and State Management</h4>
+                  <span class="cert-item__issuer">Coursera</span>
+                </div>
+                <a href="https://coursera.org/verify/I9HWZAIHVFSK" class="cert-item__link" data-magnetic target="_blank" rel="noopener">
+                  Show credentials
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact">
+      <div class="contact__blob contact__blob--a" aria-hidden="true"></div>
+      <div class="contact__blob contact__blob--b" aria-hidden="true"></div>
+
+      <div class="container contact__grid">
+        <div>
+          <p class="eyebrow reveal" data-reveal>Contact</p>
+          <h2 class="contact__title" data-split="words">Let's build something that lasts.</h2>
+          <p class="contact__desc reveal" data-reveal>
+            Open to Flutter developer roles and select freelance projects. If you've got an
+            app that needs to work as well offline as it does online, I'd like to hear about it.
+          </p>
+
+          <div class="contact__direct reveal" data-reveal>
+            <a href="mailto:muhammadhammasrasheed@gmail.com" data-magnetic>muhammadhammasrasheed@gmail.com</a>
+          </div>
+
+          <div class="contact__socials reveal" data-reveal>
+            <a href="https://github.com/HammasT1" class="social-link" aria-label="GitHub" data-magnetic target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.2.67.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/muhammadhammasrasheed/" class="social-link" aria-label="LinkedIn" data-magnetic target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+            </a>
+            <a href="https://x.com/Hamiii098" class="social-link" aria-label="Twitter / X" data-magnetic target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.47l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93Zm-1.29 19.5h2.04L6.48 3.24H4.29L17.61 20.65Z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Submits to Formspree (https://formspree.io/f/xgawbben) — contact-form.js
+             intercepts the submit event and POSTs via fetch so the success/error
+             states render inline instead of navigating away; the action/method
+             here are the no-JS fallback in case that intercept ever fails. -->
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/xgawbben" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New message from hammasrasheed.dev" />
+          <div class="form-field reveal" data-field data-reveal>
+            <input type="text" id="field-name" name="name" required autocomplete="name" />
+            <label for="field-name">Your Name</label>
+            <span class="form-field__underline"></span>
+            <span class="form-field__error">Please enter your name.</span>
+          </div>
+
+          <div class="form-field reveal" data-field data-reveal>
+            <input type="email" id="field-email" name="email" required autocomplete="email" />
+            <label for="field-email">Email Address</label>
+            <span class="form-field__underline"></span>
+            <span class="form-field__error">Please enter a valid email address.</span>
+          </div>
+
+          <div class="form-field reveal" data-field data-reveal>
+            <textarea id="field-message" name="message" required rows="4"></textarea>
+            <label for="field-message">Tell me about your project</label>
+            <span class="form-field__underline"></span>
+            <span class="form-field__error">A short message helps — even one line.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary contact-form__submit reveal" data-reveal data-magnetic>
+            Send Message
+          </button>
+          <p class="contact-form__status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ PROJECT DETAIL OVERLAY (populated + morphed in via js/projects.js) ============ -->
+  <div class="project-detail" id="project-detail" aria-hidden="true">
+    <button class="project-detail__close" id="project-detail-close" aria-label="Close case study" data-magnetic>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div id="project-detail-content"></div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="footer-marquee marquee" aria-hidden="true">
+      <div class="marquee__track footer-marquee__track" id="footer-marquee-track">
+        <span>Available for Work</span>
+        <span class="footer-marquee__dot">◆</span>
+        <span>Flutter Developer</span>
+        <span class="footer-marquee__dot">◆</span>
+        <span>Offline-First Architecture</span>
+        <span class="footer-marquee__dot">◆</span>
+        <span>Let's Build Something</span>
+        <span class="footer-marquee__dot">◆</span>
+        <!-- duplicated so translating the track by -50% loops seamlessly -->
+        <span>Available for Work</span>
+        <span class="footer-marquee__dot">◆</span>
+        <span>Flutter Developer</span>
+        <span class="footer-marquee__dot">◆</span>
+        <span>Offline-First Architecture</span>
+        <span class="footer-marquee__dot">◆</span>
+        <span>Let's Build Something</span>
+        <span class="footer-marquee__dot">◆</span>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="footer-top">
+        <h2 class="footer-cta" data-split="words">Ready when you are.</h2>
+        <div class="footer-links">
+          <a href="#hero">Home</a>
+          <a href="#work">Work</a>
+          <a href="#contact">Contact</a>
+          <a href="mailto:muhammadhammasrasheed@gmail.com">Email</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Muhammad Hammas Rasheed. All rights reserved.</span>
+        <a href="#hero" class="back-to-top" data-magnetic>Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ Vendor scripts (CDN, non-module for file:// compatibility) ============ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+  <!-- ============ App scripts — plain scripts sharing the App namespace, order matters ============ -->
+  <script src="js/utils.js"></script>
+  <script src="js/data/projects-data.js"></script>
+  <script src="js/data/skills-data.js"></script>
+  <script src="js/preloader.js"></script>
+  <script src="js/smooth-scroll.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/magnetic.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/hero-canvas.js"></script>
+  <script src="js/text-animations.js"></script>
+  <script src="js/scroll-animations.js"></script>
+  <script src="js/skills.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/contact-form.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

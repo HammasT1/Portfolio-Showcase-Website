@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Shared animation utility classes + Lenis smooth-scroll scaffolding
+   ========================================================================== */
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Fade-up utility applied by scroll-animations.js via GSAP `from()`, kept
+   here only as the no-JS baseline so content never disappears without JS. */
+.fade-up {
+  opacity: 1;
+  transform: none;
+}
+
+/* Marquee used in footer / section dividers if needed */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee__track {
+  display: inline-flex;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-cue-line::after,
+  .hero__eyebrow .status-dot {
+    animation: none !important;
+  }
+}

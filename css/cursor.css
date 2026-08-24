@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Custom cursor
+   Three layers, each trailing with more lag than the last for real depth:
+   a small dot that tracks instantly, a ring that trails with spring
+   easing, and a soft blurred glow trailing furthest behind. Disabled
+   entirely on touch/coarse-pointer devices.
+   ========================================================================== */
+
+.cursor-dot,
+.cursor-ring,
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-accent);
+  display: none;
+}
+
+.cursor-glow {
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(212, 255, 63, 0.16) 0%, rgba(124, 92, 255, 0.08) 45%, transparent 72%);
+  filter: blur(6px);
+  display: none;
+  opacity: 0.55;
+  transition: opacity var(--dur-base) var(--ease-out-quart);
+}
+
+.cursor-glow.is-hover {
+  opacity: 1;
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(244, 242, 236, 0.5);
+  transition: width var(--dur-fast) var(--ease-out-quart),
+              height var(--dur-fast) var(--ease-out-quart),
+              border-color var(--dur-fast) var(--ease-out-quart),
+              background-color var(--dur-fast) var(--ease-out-quart),
+              opacity var(--dur-fast) var(--ease-out-quart);
+  display: none;
+}
+
+.has-custom-cursor .cursor-dot,
+.has-custom-cursor .cursor-ring,
+.has-custom-cursor .cursor-glow {
+  display: block;
+}
+
+/* State: hovering an interactive/link element */
+.cursor-ring.is-hover {
+  width: 64px;
+  height: 64px;
+  border-color: var(--color-accent);
+  background: rgba(212, 255, 63, 0.08);
+}
+
+/* State: hovering a project card — ring expands to hint "view" */
+.cursor-ring.is-view {
+  width: 96px;
+  height: 96px;
+  border-color: transparent;
+  background: var(--color-accent);
+  mix-blend-mode: difference;
+}
+
+.cursor-ring .cursor-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out-quart);
+}
+
+.cursor-ring.is-view .cursor-label {
+  opacity: 1;
+}
+
+/* State: hovering something draggable / magnetic-only, no ring growth needed */
+.cursor-ring.is-magnetic {
+  border-color: var(--color-accent-2);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring,
+  .cursor-glow {
+    display: none !important;
+  }
+}

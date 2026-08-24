@@ -1,0 +1,164 @@
+/* ==========================================================================
+   Skills — interactive orbiting/constellation grid instead of progress bars.
+   Desktop: nodes float in a loose constellation layout with parallax drift.
+   Mobile: falls back to a clean responsive tag grid (no absolute positioning).
+   ========================================================================== */
+
+.skills {
+  border-top: 1px solid var(--color-border);
+}
+
+.skills__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.skills__constellation {
+  position: relative;
+  min-height: 560px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(124, 92, 255, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(212, 255, 63, 0.06), transparent 40%);
+}
+
+.skills__constellation-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.5;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 75%);
+}
+
+/* Constellation connector lines — injected by skills.js, drawn in via
+   stroke-dashoffset in sync with the node entrance stagger. */
+.skills__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.skills__line {
+  /* stroke-width is in viewBox units (0–100), not pixels — the viewBox
+     maps onto the container's actual size, so this renders as a thin,
+     resolution-independent line without needing non-scaling-stroke
+     (which would fight the intentional non-uniform preserveAspectRatio
+     scaling used to reuse the nodes' left/top percentages as-is). */
+  stroke: var(--color-accent);
+  stroke-width: 0.15;
+  opacity: 0.35;
+}
+
+.skill-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  will-change: transform;
+  cursor: pointer;
+}
+
+.skill-node__dot {
+  width: var(--node-size, 64px);
+  height: var(--node-size, 64px);
+  border-radius: 50%;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  transition: border-color var(--dur-fast) var(--ease-out-quart),
+              box-shadow var(--dur-fast) var(--ease-out-quart),
+              background var(--dur-fast) var(--ease-out-quart);
+}
+
+.skill-node[data-tier="core"] .skill-node__dot {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 24px -4px rgba(212, 255, 63, 0.35);
+}
+
+.skill-node:hover .skill-node__dot {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  box-shadow: 0 0 30px 4px rgba(212, 255, 63, 0.5);
+}
+
+.skill-node__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-dimmer);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--dur-fast) var(--ease-out-quart), transform var(--dur-fast) var(--ease-out-quart);
+}
+
+.skill-node:hover .skill-node__label {
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--color-text);
+}
+
+@media (max-width: 800px) {
+  .skills__constellation {
+    display: none;
+  }
+}
+
+.skills__grid-fallback {
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+}
+
+@media (max-width: 800px) {
+  .skills__grid-fallback {
+    display: grid;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 800px) {
+  .skills__grid-fallback {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.skill-chip {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-sm);
+  text-align: center;
+}
+
+.skill-chip[data-tier="core"] {
+  border-color: var(--color-accent);
+}
+
+.skill-chip__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.skill-chip__cat {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-dimmer);
+  margin-top: 4px;
+}

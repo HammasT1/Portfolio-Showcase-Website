@@ -1,0 +1,243 @@
+/* ==========================================================================
+   Hero section — signature "generative particle field" canvas backdrop,
+   large split-character title reveal, scroll cue.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Tighter than the section-standard --space-3xl — the full eyebrow +
+     title + subtitle + meta + actions stack needs its vertical budget
+     respected on shorter common laptop viewports (1366x768 and similar)
+     or the CTA row gets pushed below the fold entirely, defeating the
+     point of a hero. Still well clear of the ~80px fixed header. */
+  padding-top: var(--space-2xl);
+  overflow: hidden;
+}
+
+.hero__canvas-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+#hero-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, transparent 0%, var(--color-bg) 78%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero__content {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 900px) {
+  .hero__content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.hero__text {
+  min-width: 0;
+}
+
+/* Portrait, positioned beside the title on wide viewports — hidden below
+   900px rather than shrunk further, since the hero is already dense with
+   the title/subtitle/meta/actions stack and a cramped photo would fight
+   that content rather than complement it. Same two-layer construction as
+   other framed photos on the site: an outer wrapper carrying an ambient
+   glow allowed to bleed past the frame, and an inner frame that clips the
+   photo to rounded corners. */
+.hero__photo {
+  display: none;
+  position: relative;
+  flex-shrink: 0;
+  aspect-ratio: 599 / 900;
+  /* Sized off viewport HEIGHT, not just width — a width-only clamp let
+     this get tall enough on short/wide viewports (a common laptop's
+     1366x768) to push the CTA buttons below the fold entirely, breaking
+     the "hero fits in one screen" premise the section is built around.
+     Capping by vh keeps the whole hero content column within reach
+     regardless of aspect ratio. */
+  height: clamp(240px, 54vh, 500px);
+  width: auto;
+}
+
+@media (min-width: 900px) {
+  .hero__photo {
+    display: block;
+  }
+}
+
+.hero__photo-glow {
+  position: absolute;
+  inset: -18%;
+  background: radial-gradient(circle, rgba(124, 92, 255, 0.4) 0%, transparent 70%);
+  filter: blur(28px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__photo-frame {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 599 / 900;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border-strong);
+}
+
+.hero__photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--dur-slow) var(--ease-out-quart);
+}
+
+.hero__photo:hover .hero__photo-frame img {
+  transform: scale(1.04);
+}
+
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-dim);
+}
+
+.hero__eyebrow .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: 0 0 10px 2px var(--color-success);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero__title {
+  font-size: var(--fs-hero);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.hero__title .line {
+  display: block;
+}
+
+.hero__title .line--accent {
+  -webkit-text-stroke: 1.5px var(--color-text);
+  color: transparent;
+}
+
+.hero__subtitle {
+  margin-top: var(--space-lg);
+  max-width: 42ch;
+  font-size: var(--fs-lg);
+  color: var(--color-text-dim);
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.hero__meta-item {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero__meta-item strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  color: var(--color-text);
+  text-transform: none;
+  letter-spacing: -0.01em;
+  margin-top: 4px;
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.hero__scroll-cue {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hero__scroll-cue-line {
+  width: 1px;
+  height: 40px;
+  background: var(--color-text-dimmer);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__scroll-cue-line::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  animation: scroll-cue-flow 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-cue-flow {
+  0% { top: -100%; }
+  60%, 100% { top: 100%; }
+}
+
+@media (max-width: 720px) {
+  .hero__meta {
+    gap: var(--space-md);
+  }
+}

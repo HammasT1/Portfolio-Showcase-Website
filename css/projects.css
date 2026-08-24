@@ -1,0 +1,172 @@
+/* ==========================================================================
+   Projects showcase — the centerpiece. Large tiles with cursor-following
+   image parallax on hover; click morphs into a full detail overlay using
+   the FLIP technique (see projects.js) for a shared-element feel.
+   ========================================================================== */
+
+.projects {
+  border-top: 1px solid var(--color-border);
+}
+
+.projects__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.projects__count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-dimmer);
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.project-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--color-bg-elevated);
+  transition: border-color var(--dur-fast) var(--ease-out-quart);
+}
+
+.project-card:hover {
+  border-color: var(--color-border-strong);
+}
+
+@media (min-width: 860px) {
+  .project-card {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    padding: var(--space-xl);
+  }
+  .project-card:nth-child(even) {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+  .project-card:nth-child(even) .project-card__media {
+    order: 2;
+  }
+}
+
+.project-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.project-card__media-inner {
+  position: absolute;
+  inset: -6%;
+  will-change: transform;
+}
+
+.project-card__placeholder-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Real phone-mockup screenshots (device bezel included) are letterboxed
+   instead of cropped — cover-fitting a device frame into a landscape
+   card would cut off its rounded corners. The card's own background
+   shows through the empty space, so no extra fill is needed. */
+.project-card__placeholder-img.has-real-image {
+  object-fit: contain;
+}
+
+.project-card__glow {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-radial-glow);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-quart);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.project-card:hover .project-card__glow {
+  opacity: 1;
+}
+
+.project-card__index {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text);
+  background: rgba(11, 11, 14, 0.65);
+  backdrop-filter: blur(6px);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  z-index: 2;
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.project-card__tags {
+  display: flex;
+  gap: var(--space-2xs);
+  flex-wrap: wrap;
+}
+
+.project-card__tags span {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-accent);
+  border: 1px solid rgba(212, 255, 63, 0.3);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+.project-card__title {
+  font-size: var(--fs-h2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.project-card__arrow {
+  display: inline-flex;
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+.project-card:hover .project-card__arrow {
+  transform: translate(6px, -6px);
+}
+
+.project-card__desc {
+  max-width: 52ch;
+  color: var(--color-text-dim);
+}
+
+.project-card__footer {
+  display: flex;
+  gap: var(--space-lg);
+  margin-top: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

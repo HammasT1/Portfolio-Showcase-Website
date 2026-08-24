@@ -1,0 +1,137 @@
+/* ==========================================================================
+   Education & Certifications
+   ========================================================================== */
+
+.education {
+  border-top: 1px solid var(--color-border);
+}
+
+.education__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+}
+
+@media (min-width: 860px) {
+  .education__grid {
+    grid-template-columns: 0.8fr 1.2fr;
+    align-items: start;
+  }
+}
+
+.education__degree {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  background: var(--color-bg-elevated);
+}
+
+.education__period {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.education__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  margin-top: var(--space-sm);
+}
+
+.education__school {
+  color: var(--color-text-dim);
+  margin-top: var(--space-2xs);
+}
+
+.education__certs-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-md);
+}
+
+.cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.cert-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--dur-fast) var(--ease-out-quart);
+}
+
+.cert-item:hover {
+  border-color: var(--color-border-strong);
+}
+
+.cert-item__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(212, 255, 63, 0.08);
+  border: 1px solid rgba(212, 255, 63, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+}
+
+.cert-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cert-item__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.cert-item__issuer {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-dimmer);
+  margin-top: 4px;
+}
+
+.cert-item__link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.cert-item__link svg {
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+.cert-item__link:hover svg {
+  transform: translate(3px, -3px);
+}
+
+@media (max-width: 560px) {
+  .cert-item {
+    flex-wrap: wrap;
+  }
+
+  .cert-item__link {
+    margin-left: calc(40px + var(--space-md));
+  }
+}

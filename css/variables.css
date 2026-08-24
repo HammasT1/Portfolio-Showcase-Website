@@ -1,0 +1,87 @@
+/* ==========================================================================
+   Design Tokens
+   Dark-first palette: near-black base, warm off-white text, electric-lime
+   primary accent with a violet secondary accent for gradient/glow work.
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --color-bg: #0b0b0e;
+  --color-bg-elevated: #131316;
+  --color-bg-elevated-2: #1a1a1f;
+  --color-text: #f4f2ec;
+  --color-text-dim: #9a9893;
+  --color-text-dimmer: #605f5c;
+  --color-accent: #d4ff3f;
+  --color-accent-dim: #a8cc32;
+  --color-accent-2: #7c5cff;
+  --color-accent-2-dim: #5c41c9;
+  --color-border: rgba(244, 242, 236, 0.09);
+  --color-border-strong: rgba(244, 242, 236, 0.18);
+  --color-success: #4fe3a1;
+  --color-error: #ff5f5f;
+
+  /* Gradients */
+  --gradient-accent: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
+  --gradient-radial-glow: radial-gradient(circle, rgba(212, 255, 63, 0.15) 0%, rgba(124, 92, 255, 0.08) 45%, transparent 70%);
+
+  /* Typography */
+  --font-display: 'Bricolage Grotesque', 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --fs-hero: clamp(3.2rem, 9vw, 8.5rem);
+  --fs-h1: clamp(2.4rem, 5vw, 4.5rem);
+  --fs-h2: clamp(1.8rem, 3.4vw, 3rem);
+  --fs-h3: clamp(1.3rem, 2vw, 1.8rem);
+  --fs-lg: clamp(1.15rem, 1.4vw, 1.35rem);
+  --fs-body: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+
+  /* Spacing scale */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+  --space-3xl: 9rem;
+
+  /* Layout */
+  --container-max: 1400px;
+  --container-pad: clamp(1.5rem, 5vw, 4rem);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+  --radius-full: 999px;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.65, 0.05, 0.36, 1);
+  --dur-fast: 0.25s;
+  --dur-base: 0.5s;
+  --dur-slow: 0.9s;
+
+  /* Z-index scale */
+  --z-cursor: 9999;
+  --z-preloader: 9000;
+  --z-scroll-progress: 950;
+  --z-project-detail: 850;
+  --z-nav: 800;
+  --z-content: 10;
+}
+
+/* Reduced-motion consumers read this flag via JS (matchMedia), these
+   custom properties just keep a CSS-only fallback in sync. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0.01s;
+    --dur-base: 0.01s;
+    --dur-slow: 0.01s;
+  }
+}

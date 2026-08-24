@@ -1,0 +1,69 @@
+/* ==========================================================================
+   About section — pinned two-column layout, scroll-scrubbed reveal
+   ========================================================================== */
+
+.about {
+  border-top: 1px solid var(--color-border);
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 960px) {
+  .about__grid {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: start;
+  }
+}
+
+.about__intro {
+  /* Pinned via GSAP ScrollTrigger on wide viewports (see
+     scroll-animations.js `pinAboutIntro`) rather than CSS `position:
+     sticky`, so the same trigger can also drive the pin's start/end
+     precisely against the body column's height. Unpinned by default so
+     the mobile single-column layout (see about__grid below) stacks
+     normally with no leftover offset. */
+  top: var(--space-3xl);
+}
+
+.about__body p {
+  font-size: var(--fs-lg);
+  color: var(--color-text);
+  max-width: 58ch;
+  margin-bottom: var(--space-md);
+}
+
+/* .about__body .split-word's dim starting state is set in JS
+   (text-animations.js scrubTextReveal), not here — CSS would hide the
+   words before any JS confirms it can un-hide them again, which is
+   exactly the "permanently invisible if GSAP fails to load" trap the
+   [data-reveal] system had to work around (see scroll-animations.js). */
+
+.about__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.stat-block .stat-number {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.stat-block .stat-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: var(--space-3xs);
+}

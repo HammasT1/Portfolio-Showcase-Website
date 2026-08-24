@@ -1,0 +1,227 @@
+/* ==========================================================================
+   Contact — animated form with micro-interaction validation states
+   ========================================================================== */
+
+.contact {
+  border-top: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient background blobs — drifted slowly via GSAP (contact-form.js
+   animateBlobs), static (just decorative gradients) under reduced motion.
+   Kept behind the grid via z-index + blurred well past legibility range. */
+.contact__blob {
+  position: absolute;
+  width: min(46vw, 480px);
+  height: min(46vw, 480px);
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.28;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.contact__blob--a {
+  background: var(--color-accent-2);
+  top: -8%;
+  left: -8%;
+}
+
+.contact__blob--b {
+  background: var(--color-accent);
+  bottom: -12%;
+  right: -6%;
+}
+
+.contact__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 960px) {
+  .contact__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contact__title {
+  font-size: var(--fs-h1);
+  max-width: 14ch;
+}
+
+.contact__desc {
+  margin-top: var(--space-md);
+  max-width: 44ch;
+  font-size: var(--fs-lg);
+}
+
+.contact__direct {
+  margin-top: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.contact__direct a {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  width: fit-content;
+  position: relative;
+}
+
+.contact__direct a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: var(--color-text-dimmer);
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: background var(--dur-fast);
+}
+
+.contact__direct a:hover {
+  color: var(--color-accent);
+}
+.contact__direct a:hover::after {
+  background: var(--color-accent);
+}
+
+.contact__socials {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.social-link {
+  width: 3.2em;
+  height: 3.2em;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--dur-fast), background var(--dur-fast);
+}
+
+.social-link:hover {
+  border-color: var(--color-accent);
+  background: rgba(212, 255, 63, 0.08);
+}
+
+/* ---- Form ---- */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.form-field {
+  position: relative;
+}
+
+.form-field label {
+  position: absolute;
+  left: 0;
+  top: 0.9em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-body);
+  color: var(--color-text-dimmer);
+  pointer-events: none;
+  transition: transform var(--dur-fast) var(--ease-out-quart),
+              font-size var(--dur-fast) var(--ease-out-quart),
+              color var(--dur-fast) var(--ease-out-quart);
+  transform-origin: left top;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-border-strong);
+  padding-block: 0.9em;
+  font-size: var(--fs-body);
+  color: var(--color-text);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.form-field.is-filled label,
+.form-field input:focus + label,
+.form-field textarea:focus + label {
+  transform: translateY(-1.6em) scale(0.8);
+  color: var(--color-accent);
+}
+
+.form-field__underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0%;
+  background: var(--color-accent);
+  transition: width var(--dur-base) var(--ease-out-quart);
+}
+
+.form-field input:focus ~ .form-field__underline,
+.form-field textarea:focus ~ .form-field__underline {
+  width: 100%;
+}
+
+.form-field__error {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-error);
+  margin-top: 6px;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--dur-fast), height var(--dur-fast);
+}
+
+.form-field.has-error input,
+.form-field.has-error textarea {
+  border-color: var(--color-error);
+}
+
+.form-field.has-error .form-field__error {
+  height: auto;
+  opacity: 1;
+}
+
+.contact-form__submit {
+  align-self: flex-start;
+  margin-top: var(--space-sm);
+}
+
+.contact-form__status {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  min-height: 1.5em;
+}
+
+.contact-form__status[data-state="success"] {
+  color: var(--color-success);
+}
+
+.contact-form__status[data-state="error"] {
+  color: var(--color-error);
+}
