@@ -16,11 +16,31 @@ window.App = window.App || {};
 
   let activeProject = null;
   let morphClone = null;
+  // The currently-running open/close GSAP timeline, if any. Needed because
+  // `activeProject` is set the instant openProject() starts (before its
+  // animation even begins), so closeProject()'s `if (!activeProject)`
+  // guard alone doesn't stop it from running WHILE the opening morph is
+  // still mid-flight. Without this, a fast click on the close button
+  // would leave both timelines fighting over `morphClone` — open's
+  // deferred onComplete ends up removing close's clone instead of its
+  // own, then close's onComplete tries to remove a clone that's already
+  // null, throws, and finish() (which unlocks scroll and closes the
+  // overlay) never runs. Confirmed directly: clicking close ~150ms after
+  // opening left the overlay permanently stuck open, scroll permanently
+  // locked, and an orphaned <img> floating in the DOM.
+  let activeTimeline = null;
 
   /** Treats missing links and the '#' placeholder convention used
    *  elsewhere in this data file the same way: not a real link yet. */
   function isRealLink(url) {
     return Boolean(url) && url !== '#';
+  }
+
+  function cleanupMorphClone() {
+    if (morphClone) {
+      morphClone.remove();
+      morphClone = null;
+    }
   }
 
   function buildCardMarkup(project) {
@@ -380,6 +400,10 @@ window.App = window.App || {};
       return;
     }
 
+    // Any clone left over from a previous cycle should already be gone by
+    // now, but clear it defensively before claiming the shared variable.
+    cleanupMorphClone();
+
     // Build a clone of the origin image, pinned over its exact current
     // screen position, so we can morph *that* rather than the real DOM
     // node (which is about to be scrolled away under a fixed overlay).
@@ -403,15 +427,16 @@ window.App = window.App || {};
     const heroTarget = document.querySelector('.project-detail__hero');
     const endRect = heroTarget.getBoundingClientRect();
 
-    const tl = gsap.timeline({
+    activeTimeline = gsap.timeline({
       onComplete: () => {
-        morphClone.remove();
-        morphClone = null;
+        cleanupMorphClone();
         gsap.set('#project-detail-hero-img', { opacity: 1 });
+        activeTimeline = null;
       },
     });
 
-    tl.to(overlay, { autoAlpha: 1, duration: 0.01 })
+    activeTimeline
+      .to(overlay, { autoAlpha: 1, duration: 0.01 })
       .fromTo(
         overlay,
         { y: '4%' },
@@ -440,11 +465,44 @@ window.App = window.App || {};
     const heroImg = document.getElementById('project-detail-hero-img');
     const reducedMotion = App.utils.prefersReducedMotion();
 
+    // The close button (and Escape) is reachable at any point, including
+    // while the OPEN animation is still mid-flight — a fast, perfectly
+    // reasonable click right after opening. If that in-progress timeline
+    // (and its clone) isn't torn down cleanly first, it and the close
+    // animation about to start end up fighting over the shared
+    // `morphClone` variable: see the comment above `activeTimeline`'s
+    // declaration for exactly how that leaves the overlay stuck open
+    // forever. Killing it and snapping the overlay to its resting
+    // "fully open" position first guarantees close always starts clean.
+    if (activeTimeline) {
+      activeTimeline.kill();
+      activeTimeline = null;
+      if (typeof gsap !== 'undefined') gsap.set(overlay, { autoAlpha: 1, y: '0%' });
+    }
+    cleanupMorphClone();
+
     const finish = () => {
       overlay.classList.remove('is-open');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('no-scroll');
       if (App.startScroll) App.startScroll();
+
+      // Undo whatever inline transform/opacity/visibility the open/close
+      // tweens left behind. This matters because GSAP writes those as
+      // *inline* styles, which beat the stylesheet's `.project-detail {
+      // visibility: hidden }` rule no matter what — so without clearing
+      // them, removing the `is-open` class above doesn't actually hide
+      // the overlay. It stays fully rendered and keeps intercepting every
+      // click on the page underneath, which is exactly what "closing"
+      // the case study looked/felt like it did nothing.
+      if (typeof gsap !== 'undefined') {
+        gsap.set(overlay, { clearProps: 'all' });
+      } else {
+        overlay.style.transform = '';
+        overlay.style.opacity = '';
+        overlay.style.visibility = '';
+      }
+
       activeProject = null;
     };
 
@@ -471,27 +529,29 @@ window.App = window.App || {};
     document.body.appendChild(morphClone);
     gsap.set(heroImg, { opacity: 0 });
 
-    const tl = gsap.timeline({
+    activeTimeline = gsap.timeline({
       onComplete: () => {
-        morphClone.remove();
-        morphClone = null;
+        cleanupMorphClone();
         finish();
+        activeTimeline = null;
       },
     });
 
-    tl.to(overlay, { y: '4%', duration: 0.55, ease: 'power3.inOut' }, 0).to(
-      morphClone,
-      {
-        top: endRect.top,
-        left: endRect.left,
-        width: endRect.width,
-        height: endRect.height,
-        borderRadius: getComputedStyle(originCard.querySelector('.project-card__media')).borderRadius,
-        duration: 0.55,
-        ease: 'power3.inOut',
-      },
-      0
-    );
+    activeTimeline
+      .to(overlay, { y: '4%', duration: 0.55, ease: 'power3.inOut' }, 0)
+      .to(
+        morphClone,
+        {
+          top: endRect.top,
+          left: endRect.left,
+          width: endRect.width,
+          height: endRect.height,
+          borderRadius: getComputedStyle(originCard.querySelector('.project-card__media')).borderRadius,
+          duration: 0.55,
+          ease: 'power3.inOut',
+        },
+        0
+      );
   }
 
   function bindOverlayClose() {
