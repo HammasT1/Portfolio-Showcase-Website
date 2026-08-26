@@ -5,6 +5,10 @@
 
 .hero {
   position: relative;
+  /* plain vh first as a fallback for browsers that don't support svh
+     (older Android WebViews, Safari <15.4) — svh overrides it wherever
+     supported and avoids the address-bar resize jump on modern mobile. */
+  min-height: 100vh;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -59,31 +63,33 @@
   min-width: 0;
 }
 
-/* Portrait, positioned beside the title on wide viewports — hidden below
-   900px rather than shrunk further, since the hero is already dense with
-   the title/subtitle/meta/actions stack and a cramped photo would fight
-   that content rather than complement it. Same two-layer construction as
-   other framed photos on the site: an outer wrapper carrying an ambient
-   glow allowed to bleed past the frame, and an inner frame that clips the
+/* Portrait, stacked below the text on narrow viewports and positioned
+   beside the title from 900px up. Same two-layer construction as other
+   framed photos on the site: an outer wrapper carrying an ambient glow
+   allowed to bleed past the frame, and an inner frame that clips the
    photo to rounded corners. */
 .hero__photo {
-  display: none;
+  display: block;
   position: relative;
   flex-shrink: 0;
+  align-self: center;
   aspect-ratio: 599 / 900;
   /* Sized off viewport HEIGHT, not just width — a width-only clamp let
      this get tall enough on short/wide viewports (a common laptop's
      1366x768) to push the CTA buttons below the fold entirely, breaking
      the "hero fits in one screen" premise the section is built around.
      Capping by vh keeps the whole hero content column within reach
-     regardless of aspect ratio. */
-  height: clamp(240px, 54vh, 500px);
+     regardless of aspect ratio. On mobile the section is free to grow
+     past 100svh (it's a min-height, not a fixed one) so this stacks
+     below the text without clipping anything. */
+  height: clamp(200px, 40vh, 340px);
   width: auto;
 }
 
 @media (min-width: 900px) {
   .hero__photo {
-    display: block;
+    align-self: auto;
+    height: clamp(240px, 54vh, 500px);
   }
 }
 
