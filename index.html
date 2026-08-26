@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="css/cursor.css" />
   <link rel="stylesheet" href="css/preloader.css" />
   <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/ambient.css" />
   <link rel="stylesheet" href="css/hero.css" />
   <link rel="stylesheet" href="css/about.css" />
   <link rel="stylesheet" href="css/skills.css" />
@@ -172,6 +173,7 @@
     <!-- ============ ABOUT ============ -->
     <!-- PLACEHOLDER: bio copy below is realistic draft content, replace with your own voice -->
     <section class="section about" id="about">
+      <div class="ambient-blob ambient-blob--violet ambient-blob--about" aria-hidden="true"></div>
       <div class="container about__grid">
         <div class="about__intro">
           <p class="eyebrow">About</p>
@@ -228,6 +230,7 @@
 
     <!-- ============ SKILLS ============ -->
     <section class="section skills" id="skills">
+      <div class="ambient-blob ambient-blob--lime ambient-blob--skills" aria-hidden="true"></div>
       <div class="container">
         <div class="skills__header">
           <div>
@@ -273,6 +276,7 @@
     <!-- ============ EXPERIENCE / TIMELINE ============ -->
     <!-- PLACEHOLDER: timeline entries are illustrative — replace with real history -->
     <section class="section timeline" id="experience">
+      <div class="ambient-blob ambient-blob--violet ambient-blob--timeline" aria-hidden="true"></div>
       <div class="container">
         <p class="eyebrow">Experience</p>
         <h2 class="section-heading" data-split="words">Three years, one steady focus.</h2>
@@ -343,6 +347,7 @@
 
     <!-- ============ EDUCATION & CERTIFICATIONS ============ -->
     <section class="section education" id="education">
+      <div class="ambient-blob ambient-blob--lime ambient-blob--education" aria-hidden="true"></div>
       <div class="container">
         <p class="eyebrow">Education</p>
         <h2 class="section-heading" data-split="words">Formal foundation, backed by hands-on certification.</h2>
@@ -465,7 +470,8 @@
           </div>
 
           <button type="submit" class="btn btn-primary contact-form__submit reveal" data-reveal data-magnetic>
-            Send Message
+            <span class="contact-form__submit-text">Send Message</span>
+            <svg class="contact-form__submit-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12l6 6L20 6"/></svg>
           </button>
           <p class="contact-form__status" id="form-status" role="status" aria-live="polite"></p>
         </form>
@@ -534,6 +540,7 @@
   <script src="js/preloader.js"></script>
   <script src="js/smooth-scroll.js"></script>
   <script src="js/cursor.js"></script>
+  <script src="js/ambient-glow.js"></script>
   <script src="js/magnetic.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/footer.js"></script>
@@ -542,6 +549,7 @@
   <script src="js/scroll-animations.js"></script>
   <script src="js/skills.js"></script>
   <script src="js/projects.js"></script>
+  <script src="js/section-blobs.js"></script>
   <script src="js/timeline.js"></script>
   <script src="js/contact-form.js"></script>
   <script src="js/main.js"></script>

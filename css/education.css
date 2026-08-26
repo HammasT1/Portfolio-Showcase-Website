@@ -3,6 +3,8 @@
    ========================================================================== */
 
 .education {
+  position: relative;
+  overflow: hidden;
   border-top: 1px solid var(--color-border);
 }
 

@@ -112,9 +112,33 @@ window.App = window.App || {};
     });
   }
 
+  /**
+   * Runs the same character-scramble decode used on nav-link hover (see
+   * App.utils.scrambleText) on every section's small mono eyebrow label,
+   * once, the first time it scrolls into view — ties the hover
+   * micro-interaction's typographic signature to the scroll experience
+   * too, instead of it only ever showing up on a hover nobody may trigger.
+   * Excludes `.hero__eyebrow` deliberately: that one has its own dedicated
+   * entrance via animateHeroTitle's stagger and a live status dot inside
+   * it, not a plain text label.
+   */
+  function scrambleEyebrowsOnScroll() {
+    if (typeof ScrollTrigger === 'undefined') return;
+
+    document.querySelectorAll('.eyebrow').forEach((el) => {
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => App.utils.scrambleText(el, { duration: 600 }),
+      });
+    });
+  }
+
   App.initTextAnimations = () => {
     animateHeroTitle();
     animateSplitHeadings();
     scrubTextReveal();
+    scrambleEyebrowsOnScroll();
   };
 })();

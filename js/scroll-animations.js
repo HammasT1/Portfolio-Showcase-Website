@@ -56,6 +56,50 @@ window.App = window.App || {};
     });
   }
 
+  /**
+   * Replaces el's leading "0" text node with a slot-machine-style digit
+   * reel per digit of `target` (the trailing <span> for +/% is untouched,
+   * since it's a sibling, not part of what we're replacing). Each reel is
+   * a clipped strip of 0-9 seeded to a random starting digit so it reads
+   * as already-spinning the instant it animates in.
+   */
+  function buildOdometer(el, target) {
+    const leadingTextNode = el.firstChild;
+    const digits = String(target).split('');
+
+    const wrap = document.createElement('span');
+    wrap.className = 'odometer';
+
+    const reels = digits.map((digitChar) => {
+      const digitTarget = parseInt(digitChar, 10);
+      const startDigit = Math.floor(Math.random() * 10);
+
+      const digitEl = document.createElement('span');
+      digitEl.className = 'odometer__digit';
+
+      const strip = document.createElement('span');
+      strip.className = 'odometer__strip';
+      for (let n = 0; n <= 9; n++) {
+        const s = document.createElement('span');
+        s.textContent = String(n);
+        strip.appendChild(s);
+      }
+      // em, not %: a CSS percentage transform is relative to the *strip's*
+      // own height (10 stacked digits = 10em), not one digit row, so it
+      // would jump 10x too far and push every digit clean out of the
+      // digit's 1em-tall clipping window. em keeps the shift in terms of
+      // one row regardless of --fs-h1's clamp()'d computed size.
+      gsap.set(strip, { y: `${-startDigit}em` });
+
+      digitEl.appendChild(strip);
+      wrap.appendChild(digitEl);
+      return { strip, target: digitTarget };
+    });
+
+    el.replaceChild(wrap, leadingTextNode);
+    return reels;
+  }
+
   function animateCounters() {
     const counters = document.querySelectorAll('[data-counter]');
 
@@ -66,24 +110,33 @@ window.App = window.App || {};
       return;
     }
 
+    const reducedMotion = App.utils.prefersReducedMotion();
+
     counters.forEach((el) => {
       const target = parseInt(el.getAttribute('data-counter'), 10);
-      const counterObj = { value: 0 };
 
-      // el's first child is the leading text node ("0"); the trailing
-      // <span> (+, %) is left untouched so only the number itself ticks up.
+      if (reducedMotion) {
+        el.firstChild.textContent = String(target);
+        return;
+      }
+
+      const reels = buildOdometer(el, target);
+
       ScrollTrigger.create({
         trigger: el,
         start: 'top 90%',
         once: true,
         onEnter: () => {
-          gsap.to(counterObj, {
-            value: target,
-            duration: 1.4,
-            ease: 'power2.out',
-            onUpdate: () => {
-              el.firstChild.textContent = Math.round(counterObj.value);
-            },
+          // Rightmost digit gets the longest duration and the latest
+          // start, so it's still visibly spinning after the others have
+          // already settled — the cascading lock-in a real odometer has.
+          reels.forEach(({ strip, target: digitTarget }, i) => {
+            gsap.to(strip, {
+              y: `${-digitTarget}em`,
+              duration: 1 + i * 0.15,
+              delay: i * 0.08,
+              ease: 'back.out(1.4)',
+            });
           });
         },
       });

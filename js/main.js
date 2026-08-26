@@ -31,6 +31,7 @@ window.App = window.App || {};
 
     App.initSmoothScroll();
     App.initCursor();
+    App.initAmbientGlow();
     App.initMagnetic();
     App.initNav();
     App.initFooter();
@@ -59,6 +60,7 @@ window.App = window.App || {};
     App.initScrollAnimations();
     App.initTimeline();
     App.initContactForm();
+    App.initSectionBlobs();
 
     // Fonts/preloader exit can shift layout right up until this point;
     // give ScrollTrigger one fresh measurement pass once things settle.

@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Sitewide ambient atmosphere — drifting gradient blobs behind the mid-page
+   sections (About/Skills/Experience/Education), which otherwise sit on flat
+   black between the Hero and Contact sections' existing atmosphere. The
+   cursor-following background glow itself lives on `body` in base.css (a
+   real background layer, not a DOM element, so it's guaranteed to paint
+   behind all content with no z-index bookkeeping) — this file just holds
+   its JS-driven custom-property defaults' documentation and the blobs.
+   ========================================================================== */
+
+.ambient-blob {
+  position: absolute;
+  width: min(38vw, 420px);
+  height: min(38vw, 420px);
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.ambient-blob--lime {
+  background: var(--color-accent);
+}
+
+.ambient-blob--violet {
+  background: var(--color-accent-2);
+}
+
+.ambient-blob--about {
+  top: -6%;
+  right: -8%;
+}
+
+.ambient-blob--skills {
+  bottom: -14%;
+  left: -10%;
+}
+
+.ambient-blob--timeline {
+  top: 20%;
+  right: -12%;
+}
+
+.ambient-blob--education {
+  bottom: -10%;
+  left: 6%;
+}
+
+/* Keeps each section's real content painting above its blob (which sits at
+   z-index: 0) — same pattern already used by .contact__grid. */
+.about .container,
+.skills .container,
+.timeline .container,
+.education .container {
+  position: relative;
+  z-index: 1;
+}

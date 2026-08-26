@@ -3,7 +3,23 @@
    ========================================================================== */
 
 body {
-  background: var(--color-bg);
+  /* A soft radial glow that tracks the cursor across the whole page
+     (js/ambient-glow.js writes --mx/--my), layered under the flat base
+     color. A real background layer rather than a DOM element, so it's
+     guaranteed to paint behind every section's content with no z-index
+     bookkeeping. `fixed` attachment keeps it pinned to the viewport
+     (matching cursor coordinates) rather than scrolling with the page.
+     Falls back to a static, centered glow wherever --mx/--my are unset
+     (touch devices, reduced motion — see ambient-glow.js's guards). */
+  background-color: var(--color-bg);
+  background-image: radial-gradient(
+    700px circle at var(--mx, 50%) var(--my, 35%),
+    rgba(212, 255, 63, 0.1),
+    rgba(124, 92, 255, 0.07) 42%,
+    transparent 70%
+  );
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: var(--fs-body);

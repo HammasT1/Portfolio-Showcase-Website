@@ -88,6 +88,7 @@ window.App = window.App || {};
     const fields = form.querySelectorAll('[data-field]');
     const statusEl = document.getElementById('form-status');
     const submitBtn = form.querySelector('.contact-form__submit');
+    const submitText = submitBtn.querySelector('.contact-form__submit-text');
 
     fields.forEach((field) => {
       const input = field.querySelector('input, textarea');
@@ -114,7 +115,8 @@ window.App = window.App || {};
 
       const formData = new FormData(form);
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
+      submitBtn.classList.remove('is-success');
+      submitText.textContent = 'Sending…';
       statusEl.dataset.state = '';
       statusEl.textContent = '';
 
@@ -122,15 +124,22 @@ window.App = window.App || {};
         await submitToFormspree(form, formData);
         statusEl.dataset.state = 'success';
         statusEl.textContent = "Thanks — I'll get back to you within a day or two.";
+        submitBtn.classList.add('is-success');
         App.utils.confettiBurst(submitBtn);
         form.reset();
         fields.forEach((field) => field.classList.remove('is-filled', 'has-error'));
+        submitBtn.disabled = false;
+        // Give the checkmark a beat to actually be seen before the button
+        // resets to its idle state, ready for a second message.
+        setTimeout(() => {
+          submitBtn.classList.remove('is-success');
+          submitText.textContent = 'Send Message';
+        }, 2200);
       } catch {
         statusEl.dataset.state = 'error';
         statusEl.textContent = 'Something went wrong — please email me directly instead.';
-      } finally {
+        submitText.textContent = 'Send Message';
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
       }
     });
   };
