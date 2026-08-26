@@ -19,6 +19,19 @@ window.App = window.App || {};
     }
   }
 
+  /**
+   * iOS Safari's long-standing quirk: :active never applies on a tap
+   * unless *some* element on the page has a touch event listener bound to
+   * it — otherwise it treats the tap as a plain click and skips the
+   * active state entirely. This is what makes .btn:active's press-scale
+   * (see layout.css) actually register on iPhones instead of silently
+   * never firing there. Empty and passive on purpose — it exists only to
+   * satisfy that engine quirk, not to do anything itself.
+   */
+  function enableIOSActiveState() {
+    document.addEventListener('touchstart', () => {}, { passive: true });
+  }
+
   function applyReducedMotionClass() {
     if (App.utils.prefersReducedMotion()) {
       document.documentElement.classList.add('reduced-motion');
@@ -28,6 +41,7 @@ window.App = window.App || {};
   function initEarly() {
     registerPlugins();
     applyReducedMotionClass();
+    enableIOSActiveState();
 
     App.initSmoothScroll();
     App.initCursor();
