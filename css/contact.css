@@ -108,12 +108,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color var(--dur-fast), background var(--dur-fast);
+  transition: border-color var(--dur-fast), background var(--dur-fast), transform var(--dur-fast) var(--ease-out-quart);
 }
 
 .social-link:hover {
   border-color: var(--color-accent);
   background: rgba(212, 255, 63, 0.08);
+}
+
+.social-link:active {
+  transform: scale(0.9);
 }
 
 /* ---- Form ---- */

@@ -38,6 +38,7 @@ window.App = window.App || {};
     App.initHeroCanvas();
     App.initSkills();
     App.initProjects();
+    App.initImageFade();
 
     // Scroll stays locked until the preloader hands off, whether that
     // handoff already happened (see the flag check below) or is still

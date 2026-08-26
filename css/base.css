@@ -114,6 +114,21 @@ p {
   white-space: nowrap;
 }
 
+/* Smooth fade-in once an image actually finishes loading (js/image-fade.js
+   toggles .is-loaded), instead of it popping in abruptly the instant the
+   byte arrives — most noticeable on lazy-loaded project images. Only
+   affects images JS has actually tagged: a no-JS visitor never gets the
+   .img-fade class applied at all, so images just render normally rather
+   than risking a permanently-invisible opacity: 0. */
+.img-fade {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out-quart);
+}
+
+.img-fade.is-loaded {
+  opacity: 1;
+}
+
 /* Split-text word/char wrappers — overflow hidden on the outer line so
    characters can translateY in from below without a visible reflow. */
 .split-line {

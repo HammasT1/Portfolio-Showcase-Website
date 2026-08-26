@@ -22,6 +22,57 @@ window.App = window.App || {};
   }
   App.bindScrambleHover = bindScrambleHover;
 
+  /**
+   * Highlights whichever nav link matches the section currently occupying
+   * the vertical center of the viewport. Plain IntersectionObserver rather
+   * than a ScrollTrigger per section — this needs to keep working even if
+   * the GSAP/ScrollTrigger CDN scripts fail to load, same as the rest of
+   * navigation. The shrunk rootMargin (-45% top/bottom) collapses the
+   * observed viewport down to a thin band across the middle, so a section
+   * only counts as "current" once it's actually centered rather than the
+   * instant its top edge appears at the bottom of the screen.
+   */
+  function initScrollSpy() {
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = document.querySelectorAll('.nav-list a[href^="#"]');
+    if (!sections.length || !navLinks.length) return;
+
+    const linkMap = new Map();
+    navLinks.forEach((link) => {
+      linkMap.set(link.getAttribute('href').slice(1), link);
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const link = linkMap.get(entry.target.id);
+          if (!link) return;
+          navLinks.forEach((l) => l.classList.remove('is-active'));
+          link.classList.add('is-active');
+        });
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+  }
+
+  function initScrollTopButton() {
+    const btn = document.getElementById('scroll-top-btn');
+    if (!btn) return null;
+
+    btn.addEventListener('click', () => {
+      if (App.lenis) {
+        App.lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: App.utils.prefersReducedMotion() ? 'auto' : 'smooth' });
+      }
+    });
+
+    return btn;
+  }
+
   function init() {
     const header = document.getElementById('site-header');
     const toggle = document.getElementById('nav-toggle');
@@ -30,12 +81,15 @@ window.App = window.App || {};
 
     bindScrambleHover('.nav-list a');
     bindScrambleHover('.logo__text');
+    initScrollSpy();
+    const scrollTopBtn = initScrollTopButton();
 
     let lastY = window.scrollY;
 
     function onScroll() {
       const y = window.scrollY;
       header.classList.toggle('is-scrolled', y > 40);
+      if (scrollTopBtn) scrollTopBtn.classList.toggle('is-visible', y > 600);
 
       if (y > lastY && y > 160) {
         header.classList.add('is-hidden');
@@ -56,6 +110,13 @@ window.App = window.App || {};
         toggle.classList.toggle('is-open', isOpen);
         toggle.setAttribute('aria-expanded', String(isOpen));
         document.body.classList.toggle('no-scroll', isOpen);
+        // .is-hidden's translateY also makes .site-header a containing
+        // block for #nav-list's fixed positioning (same class of bug the
+        // .is-scrolled backdrop-filter fix in layout.css addresses) — if
+        // the header happened to be mid-hide from a scroll just before
+        // this tap, force it back to visible so that never applies while
+        // the full-screen menu is open.
+        if (isOpen) header.classList.remove('is-hidden');
       });
 
       navList.querySelectorAll('a').forEach((link) => {

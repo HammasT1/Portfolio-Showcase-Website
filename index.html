@@ -53,6 +53,12 @@
   <!-- Fills left-to-right in sync with scroll position (js/scroll-animations.js initScrollProgress) -->
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
+  <!-- Fades in once scrolled past the hero (js/nav.js) — reachable from
+       anywhere, unlike the footer's own "Back to top" text link. -->
+  <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Back to top" data-magnetic>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
   <!-- ============ PRELOADER (shown once per session — see js/preloader.js) ============ -->
   <div class="preloader" id="preloader" aria-hidden="true">
     <div class="preloader__panel"></div>
@@ -535,6 +541,7 @@
 
   <!-- ============ App scripts — plain scripts sharing the App namespace, order matters ============ -->
   <script src="js/utils.js"></script>
+  <script src="js/image-fade.js"></script>
   <script src="js/data/projects-data.js"></script>
   <script src="js/data/skills-data.js"></script>
   <script src="js/preloader.js"></script>

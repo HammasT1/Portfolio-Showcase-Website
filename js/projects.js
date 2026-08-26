@@ -380,6 +380,11 @@ window.App = window.App || {};
 
     contentEl.innerHTML = buildDetailMarkup(project);
     if (App.initMagnetic) App.initMagnetic(contentEl);
+    // Gallery images benefit from the fade-in; the hero image itself is
+    // fine either way since the FLIP morph timeline below manages its
+    // opacity directly via inline styles, which always wins over this
+    // class-based rule regardless of load timing.
+    if (App.initImageFade) App.initImageFade(contentEl);
 
     // The overlay is its own fixed, independently-scrolling box (see
     // .project-detail { overflow-y: auto } in project-detail.css) — reset

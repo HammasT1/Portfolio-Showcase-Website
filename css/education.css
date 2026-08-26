@@ -118,6 +118,11 @@
   font-size: var(--fs-sm);
   color: var(--color-accent);
   white-space: nowrap;
+  transition: transform var(--dur-fast) var(--ease-out-quart);
+}
+
+.cert-item__link:active {
+  transform: scale(0.95);
 }
 
 .cert-item__link svg {

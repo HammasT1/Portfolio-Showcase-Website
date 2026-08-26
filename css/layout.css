@@ -37,15 +37,37 @@
   right: 0;
   z-index: var(--z-nav);
   padding: var(--space-md) 0;
-  transition: transform var(--dur-base) var(--ease-out-quart),
-              background-color var(--dur-base) var(--ease-out-quart),
-              backdrop-filter var(--dur-base) var(--ease-out-quart);
+  transition: transform var(--dur-base) var(--ease-out-quart);
 }
 
-.site-header.is-scrolled {
+/* The frosted-glass fill lives on a pseudo-element rather than directly on
+   .site-header itself — backdrop-filter (like transform) makes whatever
+   element carries it a new containing block for any `position: fixed`
+   descendant. .site-header has exactly one: the mobile full-screen
+   #nav-list menu. With backdrop-filter on .site-header, opening that menu
+   at ANY scroll position past 40px (i.e. almost always) collapsed it down
+   to the header's own ~94px height instead of covering the viewport,
+   since its `inset: 0` was resolving against the header's box, not the
+   page's — confirmed directly by checking #nav-list's rendered rect
+   before and after this fix. A ::before has none of that side effect on
+   its own parent, so this keeps the identical visual with none of the
+   breakage. z-index: -1 is safe here (doesn't leak behind the page
+   content scrolling under the fixed header) because .site-header's own
+   z-index already gives it an isolated stacking context. */
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
   background: rgba(11, 11, 14, 0.72);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-border);
+  transition: opacity var(--dur-base) var(--ease-out-quart);
+}
+
+.site-header.is-scrolled::before {
+  opacity: 1;
 }
 
 .site-header.is-hidden {
@@ -102,12 +124,14 @@
 }
 
 .nav-list a:hover,
-.nav-list a:focus-visible {
+.nav-list a:focus-visible,
+.nav-list a.is-active {
   color: var(--color-text);
 }
 
 .nav-list a:hover::after,
-.nav-list a:focus-visible::after {
+.nav-list a:focus-visible::after,
+.nav-list a.is-active::after {
   width: 100%;
 }
 
@@ -191,6 +215,18 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  transition: transform var(--dur-fast) var(--ease-out-quart);
+}
+
+/* Tactile press feedback on every click/tap. On desktop, [data-magnetic]
+   buttons already write their own inline transform via GSAP (magnetic
+   pull), which wins over this stylesheet rule while hovering — so this
+   mainly matters there for the instant of the actual click. On touch
+   devices magnetic.js never binds at all (no cursor to track), which is
+   exactly where a tap needs its own visible feedback most, since there's
+   no hover state to lean on. */
+.btn:active {
+  transform: scale(0.95);
 }
 
 .btn-primary {
@@ -286,12 +322,16 @@
   border: 1px solid var(--color-border);
   padding: 0.6em 1.1em;
   border-radius: var(--radius-full);
-  transition: color var(--dur-fast), border-color var(--dur-fast);
+  transition: color var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast) var(--ease-out-quart);
 }
 
 .footer-links a:hover {
   color: var(--color-accent);
   border-color: var(--color-accent);
+}
+
+.footer-links a:active {
+  transform: scale(0.95);
 }
 
 .footer-bottom {
@@ -313,4 +353,50 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+
+/* ---- Floating scroll-to-top button ----
+   Distinct from .back-to-top above (the footer's own text link) — this one
+   is reachable from anywhere on the page instead of only after scrolling
+   all the way to the bottom. Hidden by default; nav.js toggles
+   .is-visible once the visitor has scrolled past the hero. */
+.scroll-top-btn {
+  position: fixed;
+  right: var(--space-md);
+  bottom: var(--space-md);
+  z-index: var(--z-nav);
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out-quart),
+              transform var(--dur-base) var(--ease-out-quart),
+              border-color var(--dur-fast), background var(--dur-fast);
+}
+
+.scroll-top-btn.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.scroll-top-btn:hover {
+  border-color: var(--color-accent);
+  background: var(--color-bg-elevated-2);
+}
+
+.scroll-top-btn:active {
+  transform: scale(0.92);
+}
+
+.scroll-top-btn.is-visible:active {
+  transform: translateY(0) scale(0.92);
 }
