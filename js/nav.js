@@ -91,12 +91,19 @@ window.App = window.App || {};
       header.classList.toggle('is-scrolled', y > 40);
       if (scrollTopBtn) scrollTopBtn.classList.toggle('is-visible', y > 600);
 
-      if (y > lastY && y > 160) {
+      const diff = y - lastY;
+      lastY = y;
+
+      // Ignore near-zero deltas — Lenis's eased scroll produces lots of these
+      // as velocity decays between/after wheel ticks, and reacting to them
+      // was causing the header to flicker open/closed on consecutive frames.
+      if (Math.abs(diff) < 4) return;
+
+      if (diff > 0 && y > 160) {
         header.classList.add('is-hidden');
-      } else {
+      } else if (diff < 0) {
         header.classList.remove('is-hidden');
       }
-      lastY = y;
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
