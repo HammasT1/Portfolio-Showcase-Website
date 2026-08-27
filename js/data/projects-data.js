@@ -1,14 +1,22 @@
 /* ==========================================================================
-   Real projects — Ben 10 Omnitrix Watch, Starbucks Card Animation, and
-   Dino Flutter. Copy below is grounded in what was confirmed directly
-   (features, tech used, repo links); a few fields are still marked
-   PLACEHOLDER because they weren't — fill those in with the real values.
+   Real projects. The first three (Ben 10 Omnitrix Watch, Starbucks Card
+   Animation, Dino Flutter) are grounded in what was confirmed directly
+   (features, tech used, repo links); a few fields on those are still
+   marked PLACEHOLDER because they weren't — fill those in with the real
+   values.
 
    Dino Flutter's repo link (https://github.com/HammasT1/dino-flutter)
    currently 404s via the GitHub API — either private or a different
    name/case — so its `links.code` is left as '#' below. Swap in the
    working URL once you have it (see the PLACEHOLDER comment on that
    entry).
+
+   The five after that (PSL Cricket Companion through WalletFX) are drafted
+   from their screenshots alone — nothing beyond what's visibly on screen
+   is confirmed. `links.code` is '#' for all five pending the real repo
+   URLs; problem/approach/architecture read as reasonable portfolio copy
+   but should be reviewed/edited against what was actually built before
+   this goes live, same as any other PLACEHOLDER-marked field below.
 
    `image` points at a real screenshot (in assets/projects/clean/ — the
    raw captures in assets/projects/ still had a sliver of the dev
@@ -119,5 +127,170 @@ App.projectsData = [
     image: 'assets/projects/clean/dino-flutter.png',
     gallery: [],
     imageSeed: 3,
+  },
+  {
+    id: 'psl-cricket-companion',
+    index: '04',
+    // PLACEHOLDER: confirm actual build year/duration
+    year: '2026',
+    duration: 'Personal Project',
+    role: 'Solo Developer',
+    title: 'PSL Cricket Companion',
+    tagline: 'A Pakistan Super League companion app — fixtures, live-soon match cards, and standings.',
+    tags: ['Flutter', 'Dart', 'UI Design'],
+    summary:
+      'A PSL (Pakistan Super League) companion app UI — a home feed built around the next match, a scrollable upcoming-fixtures list, and bottom navigation into Teams and Standings.',
+    // PLACEHOLDER: written from the screenshot alone — confirm whether fixture/standings data is live (API-backed) or local/mock, and correct this paragraph accordingly.
+    problem:
+      'A sports companion app lives or dies on how fast you can answer "what\'s next" — the goal was a home screen that leads with the next match and countdown-style framing, rather than burying it in a generic list.',
+    approach:
+      'The home feed is anchored by a "Next Match" card (teams, format, date/time, venue, a LIVE SOON badge) above a scrollable list of upcoming fixtures in the same team-vs-team format, with bottom navigation handing off to dedicated Teams and Standings sections.',
+    architecture:
+      'A tab-based shell (Home / Teams / Standings / Settings) with the home tab built around a hero fixture card plus a scrollable fixture list.',
+    stack: ['Flutter', 'Dart', 'Bottom Navigation'],
+    results: [
+      { label: 'Home Focus', value: 'Next-match hero card' },
+      { label: 'Fixtures', value: 'Scrollable upcoming list' },
+      { label: 'Navigation', value: '4-tab bottom nav' },
+    ],
+    links: {
+      // PLACEHOLDER: repo link to be provided
+      code: '#',
+    },
+    image: 'assets/projects/clean/PSL-flutter.png',
+    gallery: [],
+    imageSeed: 4,
+  },
+  {
+    id: 'nike-shop',
+    index: '05',
+    // PLACEHOLDER: confirm actual build year/duration
+    year: '2026',
+    duration: 'Personal Project',
+    role: 'Solo Developer',
+    title: 'Nike Shop',
+    tagline: 'A single-product e-commerce screen UI, built around one hero product and a clean add-to-cart flow.',
+    tags: ['Flutter', 'Dart', 'E-Commerce UI'],
+    summary:
+      'A Nike-styled product page — a hero product shot, price, a page-indicator carousel, and a cart icon with a live item badge, closing with a clear Add to Cart action.',
+    // PLACEHOLDER: written from the screenshot alone — confirm cart/checkout behavior and correct this paragraph accordingly.
+    problem:
+      'Product-detail screens are one of the most common UI patterns to build badly — cluttered, or so plain the product itself gets lost. The goal was a layout where the product image stays the clear focal point, with price and the cart action never competing for attention.',
+    approach:
+      'A single elevated card frames the hero product shot with a carousel page-indicator beneath it, product name and price directly below, and a full-width Add to Cart button anchored at the bottom — with a persistent cart icon and item-count badge always visible in the header.',
+    architecture:
+      'A single product-detail screen: app bar with a badge-driven cart icon, a card-framed hero image area, and a fixed bottom action bar for Add to Cart.',
+    stack: ['Flutter', 'Dart', 'Cart Badge State'],
+    results: [
+      { label: 'Layout', value: 'Single hero product' },
+      { label: 'Cart', value: 'Live item-count badge' },
+      { label: 'Primary Action', value: 'Full-width Add to Cart' },
+    ],
+    links: {
+      // PLACEHOLDER: repo link to be provided
+      code: '#',
+    },
+    image: 'assets/projects/clean/nike-flutter.png',
+    gallery: [],
+    imageSeed: 5,
+  },
+  {
+    id: 'pour',
+    index: '06',
+    // PLACEHOLDER: confirm actual build year/duration
+    year: '2026',
+    duration: 'Personal Project',
+    role: 'Solo Developer',
+    title: 'Pour',
+    tagline: 'A drink-pouring fill animation — pick a cup size and watch it fill toward a target volume.',
+    tags: ['Flutter', 'Dart', 'AnimationController'],
+    summary:
+      'An animation-focused Flutter toy centered on a single satisfying interaction: pick a cup size (S/M/L), pour from the can, and watch the liquid level animate up to a live ml readout — with a one-tap reset.',
+    // PLACEHOLDER: written from the screenshot alone — confirm the actual pour trigger (tap/drag/timer) and correct this paragraph accordingly.
+    problem:
+      'Fill/progress animations are everywhere but rarely feel tactile — the goal was a pour interaction specific enough (can, cup size, a real ml target) that it reads as a physical action rather than a generic progress bar with a cup graphic wrapped around it.',
+    approach:
+      'Selecting a cup size (S/M/L) sets the fill target, and the liquid level animates up inside a cup graphic in sync with a live "current / target ml" readout, with an "Empty cup" control to reset the animation back to zero.',
+    architecture:
+      'A single animated screen: a size-selector row driving the target volume, an AnimationController-backed fill level on the cup graphic, and a reset action that replays the animation from empty.',
+    stack: ['Flutter', 'Dart', 'AnimationController'],
+    results: [
+      { label: 'Sizes', value: 'S / M / L cup targets' },
+      { label: 'Feedback', value: 'Live ml readout' },
+      { label: 'Reset', value: 'One-tap empty cup' },
+    ],
+    links: {
+      // PLACEHOLDER: repo link to be provided
+      code: '#',
+    },
+    image: 'assets/projects/clean/pour_flutter.png',
+    gallery: [],
+    imageSeed: 6,
+  },
+  {
+    id: 'tetrix',
+    index: '07',
+    // PLACEHOLDER: confirm actual build year/duration
+    year: '2026',
+    duration: 'Personal Project',
+    role: 'Solo Developer',
+    title: 'Tetrix',
+    tagline: 'A Tetris clone built from scratch in Flutter, with full on-screen touch controls.',
+    tags: ['Flutter', 'Dart', 'Game Loop'],
+    summary:
+      'A Tetris-style falling-block game rebuilt in Flutter — points, lines-cleared, level, and a next-piece preview on a classic handheld-style HUD, played entirely with on-screen touch controls.',
+    // PLACEHOLDER: written from the screenshot alone — confirm the actual game-loop/input implementation and correct this paragraph accordingly.
+    problem:
+      'Same challenge as this portfolio\'s other game rebuild (Dino Flutter): a falling-block game needs a real, continuously-ticking game loop — piece gravity, line-clear detection, level-based speed-up — which is a different discipline from UI animation work.',
+    approach:
+      'The board tracks points, lines cleared ("Cleans"), and level on a persistent HUD, with a next-piece preview so upcoming pieces are never a surprise. Touch controls are fully on-screen: a directional pad for movement/rotation and a dedicated drop button, alongside sound and pause/resume/reset controls.',
+    architecture:
+      'A hand-rolled falling-block game loop — a grid-based board, a piece-spawning/rotation system, and level-driven speed scaling — with input handled entirely through on-screen touch controls rather than gestures.',
+    stack: ['Flutter', 'Dart', 'Custom Game Loop', 'Touch Controls'],
+    results: [
+      { label: 'HUD', value: 'Points, Cleans, Level' },
+      { label: 'Preview', value: 'Next-piece indicator' },
+      { label: 'Input', value: 'Full on-screen controls' },
+    ],
+    links: {
+      // PLACEHOLDER: repo link to be provided
+      code: '#',
+    },
+    image: 'assets/projects/clean/tetris-flutter.png',
+    gallery: [],
+    imageSeed: 7,
+  },
+  {
+    id: 'walletfx',
+    index: '08',
+    // PLACEHOLDER: confirm actual build year/duration
+    year: '2026',
+    duration: 'Personal Project',
+    role: 'Solo Developer',
+    title: 'WalletFX',
+    tagline: 'A virtual card wallet UI with a switchable theme library for restyling the card on the fly.',
+    tags: ['Flutter', 'Dart', 'Theming'],
+    summary:
+      'A digital wallet card UI — card number, cardholder, and expiry on a realistic card face with a reveal/hide toggle, plus a "Theme Library" for restyling the card\'s color scheme and saving favorite looks.',
+    // PLACEHOLDER: written from the screenshot alone — confirm whether "Save this look" actually persists themes and correct this paragraph accordingly.
+    problem:
+      'Card UIs are usually static — the goal was a card that felt like a real customizable object, with restyling as a first-class feature rather than a settings-menu afterthought.',
+    approach:
+      'The card face shows number, cardholder, and expiry with a visibility toggle to hide sensitive digits, while a swatch-based "Theme Library" below lets you preview different card color themes and save the ones you like via "Save this look".',
+    architecture:
+      'A single wallet screen: a card-face widget parameterized by theme color, a swatch selector driving that parameter live, and a saved-looks list for persisted theme choices.',
+    stack: ['Flutter', 'Dart', 'Theming'],
+    results: [
+      { label: 'Privacy', value: 'Reveal/hide card details' },
+      { label: 'Theming', value: 'Live swatch preview' },
+      { label: 'Personalization', value: 'Saved custom looks' },
+    ],
+    links: {
+      // PLACEHOLDER: repo link to be provided
+      code: '#',
+    },
+    image: 'assets/projects/clean/walletfx-flutter.png',
+    gallery: [],
+    imageSeed: 8,
   },
 ];

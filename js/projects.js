@@ -78,6 +78,16 @@ window.App = window.App || {};
             <span>${project.duration}</span>
             <span>${project.role}</span>
           </div>
+          <div class="project-card__links">
+            ${
+              isRealLink(project.links.code)
+                ? `<a href="${project.links.code}" class="project-card__repo-link" data-repo-link target="_blank" rel="noopener">
+                     View Repo
+                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+                   </a>`
+                : `<span class="project-card__repo-link project-card__repo-link--soon">Repo coming soon</span>`
+            }
+          </div>
         </div>
       </article>
     `;
@@ -203,6 +213,15 @@ window.App = window.App || {};
           openProject(card);
         }
       });
+
+      // The repo link sits inside the whole-card click target — without
+      // this, clicking it would both open it in a new tab AND trigger
+      // openProject() via bubbling, popping the detail overlay open behind
+      // the tab switch.
+      const repoLink = card.querySelector('[data-repo-link]');
+      if (repoLink) {
+        repoLink.addEventListener('click', (e) => e.stopPropagation());
+      }
     });
   }
 

@@ -1,7 +1,9 @@
 /* ==========================================================================
-   Projects showcase — the centerpiece. Large tiles with cursor-following
-   image parallax on hover; click morphs into a full detail overlay using
-   the FLIP technique (see projects.js) for a shared-element feel.
+   Projects showcase — a responsive grid (1 col mobile, 2 col tablet, 3 col
+   desktop) of compact cards: image, short description, tags, and a repo
+   link, on top of the same cursor-following image parallax as before.
+   Clicking a card still morphs into a full detail overlay using the FLIP
+   technique (see projects.js) for a shared-element feel.
    ========================================================================== */
 
 .projects {
@@ -24,17 +26,29 @@
 }
 
 .project-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 640px) {
+  .project-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .project-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .project-card {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-lg);
-  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -45,20 +59,6 @@
 
 .project-card:hover {
   border-color: var(--color-border-strong);
-}
-
-@media (min-width: 860px) {
-  .project-card {
-    grid-template-columns: 1.1fr 0.9fr;
-    align-items: center;
-    padding: var(--space-xl);
-  }
-  .project-card:nth-child(even) {
-    grid-template-columns: 0.9fr 1.1fr;
-  }
-  .project-card:nth-child(even) .project-card__media {
-    order: 2;
-  }
 }
 
 .project-card__media {
@@ -83,9 +83,9 @@
 }
 
 /* Real phone-mockup screenshots (device bezel included) are letterboxed
-   instead of cropped — cover-fitting a device frame into a landscape
-   card would cut off its rounded corners. The card's own background
-   shows through the empty space, so no extra fill is needed. */
+   instead of cropped — cover-fitting a device frame into the card would
+   cut off its rounded corners. The card's own background shows through
+   the empty space, so no extra fill is needed. */
 .project-card__placeholder-img.has-real-image {
   object-fit: contain;
 }
@@ -121,7 +121,8 @@
 .project-card__body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
+  flex: 1;
 }
 
 .project-card__tags {
@@ -140,7 +141,7 @@
 }
 
 .project-card__title {
-  font-size: var(--fs-h2);
+  font-size: var(--fs-h3);
   display: flex;
   align-items: center;
   gap: var(--space-sm);
@@ -156,17 +157,53 @@
 }
 
 .project-card__desc {
-  max-width: 52ch;
   color: var(--color-text-dim);
+  flex: 1;
 }
 
 .project-card__footer {
   display: flex;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   margin-top: var(--space-2xs);
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   color: var(--color-text-dimmer);
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  flex-wrap: wrap;
+}
+
+/* ---- Repo link row ---- */
+.project-card__links {
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--color-border);
+}
+
+.project-card__repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-accent);
+  transition: transform var(--dur-fast) var(--ease-out-quart);
+  position: relative;
+  z-index: 3;
+}
+
+.project-card__repo-link:active {
+  transform: scale(0.96);
+}
+
+.project-card__repo-link svg {
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+.project-card__repo-link:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.project-card__repo-link--soon {
+  color: var(--color-text-dimmer);
+  cursor: default;
 }
